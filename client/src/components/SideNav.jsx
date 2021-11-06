@@ -1,14 +1,15 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 
 const SideNav = () => {
     return (
         <div>
            <aside className="main-sidebar sidebar-dark-primary elevation-4">
             {/* Brand Logo */}
-            <a href="index3.html" className="brand-link">
+            <NavLink className="brand-link" to='#'>
                 <img src="logo1.png" alt="KPU Logo" className="brand-image img-circle elevation-3" style={{opacity: '.8'}} />
                 <span className="brand-text font-weight-light">KPU KAB GOWA</span>
-            </a>
+            </NavLink>
             {/* Sidebar */}
             <div className="sidebar">
                 {/* Sidebar user panel (optional) */}
@@ -17,7 +18,7 @@ const SideNav = () => {
                     <img src="dist/img/user2-160x160.jpg" className="img-circle elevation-2" alt="User Image" />
                 </div>
                 <div className="info">
-                    <a href="#" className="d-block">Alexander Pierce</a>
+                    <NavLink className="d-block" to="#">Alexander Pierce</NavLink>
                 </div>
                 </div>
                 {/* Sidebar Menu */}
@@ -26,47 +27,58 @@ const SideNav = () => {
                     {/* Add icons to the links using the .nav-icon class
                     with font-awesome or any other icon font library */}
                     <li className="nav-item menu-open">
-                    <a href="#" className="nav-link active">
+                    <NavLink className="nav-link" to="/dashboard">
                         <i className="nav-icon fas fa-tachometer-alt" />
                         <p>
                         Dashboard
                         <i className="right" />
                         </p>
-                    </a>
+                    </NavLink>
                     </li>
                     {/* caleg */}
                     <li className="nav-item">
-                    <a href="#" className="nav-link">
-                        <i className="nav-icon fas fa-user-tie" />
+                    <a className="nav-link" to="#">
+                        <i className="nav-icon fas fa-users" />
                         <p>
-                        Caleg
+                        Daftar Calon
                         <i className="fas fa-angle-left right" />
                         </p>
                     </a>
                     <ul className="nav nav-treeview">
                         <li className="nav-item">
                             <div className="ml-3">
-                                <a href="#" className="nav-link">
+                                <NavLink className="nav-link" to="/bacaleg">
                                     <i className="fas fa-user-plus nav-icon" />
-                                    <p>Tambah Caleg</p>
-                                </a>
+                                    <p> Bakal Calon</p>
+                                </NavLink>
                             </div>
                         </li>
                         <li className="nav-item">
                             <div className="ml-3">
-                                <a href="pages/layout/top-nav-sidebar.html" className="nav-link">
-                                    <i className="fas fa-users nav-icon" />
-                                    <p>Daftar Caleg</p>
-                                </a>
+                                <NavLink className="nav-link" to="/caleg">
+                                    <i className="fas fa-user-tie nav-icon" />
+                                    <p>Calon Legislatif</p>
+                                </NavLink>
                             </div>
                         </li>
                     </ul>
                     </li>
                     {/* .caleg */}
 
+                    {/* verifikasi */}
+                    <li className="nav-item">
+                      <NavLink className="nav-link" to="/verifikasi">
+                          <i className="nav-icon fas fa-user-check" />
+                          <p>
+                          Verifikasi
+                          </p>
+                      </NavLink>
+                    </li>
+                    {/* .verivikasi */}
+
                     {/* master data */}
                     <li className="nav-item">
-                    <a href="#" className="nav-link">
+                    <a className="nav-link" to="#">
                         <i className="nav-icon fas fa-database" />
                         <p>
                         Master Data
@@ -76,26 +88,26 @@ const SideNav = () => {
                     <ul className="nav nav-treeview">
                         <li className="nav-item">
                             <div className="ml-3">
-                                <a href="#" className="nav-link">
+                                <NavLink className="nav-link" to="/dapil">
                                     <i className="fas fa-chart-area nav-icon" />
                                         <p>Dapil</p>
-                                </a>
+                                </NavLink>
                             </div>
                         </li>
                         <li className="nav-item">
                             <div className="ml-3">
-                                <a href="#" className="nav-link">
+                                <NavLink className="nav-link" to="/kecamatan">
                                     <i className="fas fa-city nav-icon" />
                                     <p>Kecamatan</p>
-                                </a>
+                                </NavLink>
                             </div>
                         </li>
                         <li className="nav-item">
                             <div className="ml-3">
-                                <a href="#" className="nav-link">
+                                <NavLink className="nav-link" to="/partai">
                                     <i className="fas fa-flag nav-icon" />
                                     <p>Partai</p>
-                                </a>
+                                </NavLink>
                             </div>
                         </li>
                     </ul>
@@ -103,7 +115,7 @@ const SideNav = () => {
                     {/* .master data */}
                     {/* Pengguna */}
                     <li className="nav-item">
-                    <a href="#" className="nav-link">
+                    <a className="nav-link" to="#">
                         <i className="nav-icon fas fa-user-cog" />
                         <p>
                         Pengguna
@@ -113,18 +125,18 @@ const SideNav = () => {
                     <ul className="nav nav-treeview">
                         <li className="nav-item">
                             <div className="ml-3">
-                                <a href="#" className="nav-link">
+                                <NavLink className="nav-link" to="/pengguna/tambah">
                                     <i className="fas fa-user-plus nav-icon" />
                                     <p>Tambah Pengguna</p>
-                                </a>
+                                </NavLink>
                             </div>
                         </li>
                         <li className="nav-item">
                             <div className="ml-3">
-                                <a href="pages/layout/top-nav-sidebar.html" className="nav-link">
+                                <NavLink className="nav-link" to="/pengguna/list">
                                     <i className="fas fa-users nav-icon" />
                                     <p>Daftar Pengguna</p>
-                                </a>
+                                </NavLink>
                             </div>
                         </li>
                     </ul>
@@ -132,10 +144,10 @@ const SideNav = () => {
                     {/* .Pengguna */}
                     <li className="nav-header">Pengaturan Akun</li>
                     <li className="nav-item">
-                    <a href="#" className="nav-link">
+                    <NavLink className="nav-link" to="/logout">
                         <i className="nav-icon fas fa-sign-out-alt nav-icon" />
                         <p className="text">Log Out</p>
-                    </a>
+                    </NavLink>
                     </li>
                 </ul>
                 </nav>

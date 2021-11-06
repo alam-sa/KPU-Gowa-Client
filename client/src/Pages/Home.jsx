@@ -2,7 +2,7 @@ import React from 'react'
 
 const Home = () => {
     return (
-        <>
+        <React.Fragment>
              <div className="content-wrapper">
             {/* Content Header (Page header) */}
             <div className="content-header">
@@ -90,7 +90,7 @@ const Home = () => {
             {/* /.content */}
             </div>
      
-        </>
+        </React.Fragment>
     )
 }
 

@@ -1,5 +1,5 @@
 import React from "react";
-import Table from "../components/DataTable";
+import TableBalon from "../components/DataTableBalon";
 import { NavLink } from "react-router-dom";
 
 const DaftarBacaleg = () => {
@@ -29,7 +29,7 @@ const DaftarBacaleg = () => {
                     <div className="col-12">
                     <div className="card">
                         <div className="card-body">
-                            <Table />
+                            <TableBalon />
                         </div>
                     </div>
                     </div>

@@ -2,6 +2,9 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 
 const SideNav = () => {
+  function logout() {
+        localStorage.clear();
+  }
     return (
         <div>
            <aside className="main-sidebar sidebar-dark-primary elevation-4">
@@ -12,15 +15,6 @@ const SideNav = () => {
             </NavLink>
             {/* Sidebar */}
             <div className="sidebar">
-                {/* Sidebar user panel (optional) */}
-                <div className="user-panel mt-3 pb-3 mb-3 d-flex">
-                <div className="image">
-                    <img src="dist/img/user2-160x160.jpg" className="img-circle elevation-2" alt="User Image" />
-                </div>
-                <div className="info">
-                    <NavLink className="d-block" to="#">Alexander Pierce</NavLink>
-                </div>
-                </div>
                 {/* Sidebar Menu */}
                 <nav className="mt-2">
                 <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -37,7 +31,7 @@ const SideNav = () => {
                     </li>
                     {/* caleg */}
                     <li className="nav-item">
-                    <a className="nav-link" to="#">
+                    <a className="nav-link" to="/caleg">
                         <i className="nav-icon fas fa-users" />
                         <p>
                         Daftar Calon
@@ -96,14 +90,6 @@ const SideNav = () => {
                         </li>
                         <li className="nav-item">
                             <div className="ml-3">
-                                <NavLink className="nav-link" to="/kecamatan">
-                                    <i className="fas fa-city nav-icon" />
-                                    <p>Kecamatan</p>
-                                </NavLink>
-                            </div>
-                        </li>
-                        <li className="nav-item">
-                            <div className="ml-3">
                                 <NavLink className="nav-link" to="/partai">
                                     <i className="fas fa-flag nav-icon" />
                                     <p>Partai</p>
@@ -144,7 +130,7 @@ const SideNav = () => {
                     {/* .Pengguna */}
                     <li className="nav-header">Pengaturan Akun</li>
                     <li className="nav-item">
-                    <NavLink className="nav-link" to="/logout">
+                    <NavLink className="nav-link" onClick={(e) => logout(e)} to="/login">
                         <i className="nav-icon fas fa-sign-out-alt nav-icon" />
                         <p className="text">Log Out</p>
                     </NavLink>

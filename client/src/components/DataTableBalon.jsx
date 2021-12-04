@@ -1,80 +1,73 @@
 import React, { useEffect, useState } from "react";
 import DataTable, { memoize } from 'react-data-table-component';
-import { Link, useLocation } from "react-router-dom";
+import moment from 'moment'
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { getCaleg } from "../store/action";
+
+var idLocale = require('moment/locale/id'); 
+moment.locale('id', idLocale);
+
 
 const columns = [
     {
         name: 'Foto',
-        selector: row => row.year
+        selector: row => row.nama
     },
     {
         name: 'Tanggal Daftar',
-        selector: row => row.year,
+        selector: row => `${moment(row.createdAt).format("dddd")}, ${moment(row.createdAt).format("DD/MM/YYYY")}`,
         sortable: true,
     },
     {
         name: 'NIK',
-        selector: row => row.year,
+        selector: row => row.NIK,
         sortable: true,
     },
     {
         name: 'Nama Calon',
-        selector: row => row.title,
+        selector: row => row.nama,
         sortable: true,
     },
     {
       name: 'Asal Partai',
-      selector: row => row.partai,
+      selector: row => row.Partai.nama_partai,
       sortable: true,
     },
     {
-        name: 'Validasi',
-        selector: row => row.year,
+        name: 'Status',
+        selector: row => row.StatusCaleg.nama_status,
         sortable: true,
     },
     {
-        cell: (data) => <button className='btn btn-sm btn-info'><i className='fas fa-info mr-1'></i><Link to="/detail" state={{data: data}} style={{color: '#fff'}} className="link-success">Detail</Link></button> ,
+        cell: (data) => <button className='btn btn-sm btn-info'><i className='fas fa-info mr-1'></i><Link to="/detail" state={{data: data}} ProfilCalon style={{color: '#fff'}} className="link-success">Detail</Link></button> ,
         ignoreRowClick: true,
         allowOverflow: true,
         button: true,
-    },
-    {
-        cell: (data) => <button className='btn btn-sm btn-success'><i className='fas fa-edit mr-1'></i><Link to={{pathname: `/verifikasi/${data.id}`, state: data}} style={{color: '#fff'}} className="link-success">Verifikasi</Link></button> ,
-        ignoreRowClick: true,
-        allowOverflow: true,
-        button: true,
-    },
+    }
 ];
 
-const data = [
-    {
-        id: 1,
-        title: 'Beetlejuice',
-        partai: 'PDI Perjuangan',
-        year: '1988',
-    },
-    {
-        id: 2,
-        title: 'Ghostbusters',
-        partai: 'Gerindra',
-        year: '1984',
-    },
-]
 
-const Table = () => {
-    const [fetchData, setFetchData] = useState(data)
+const TableBalon = () => {
     const [tableData, setTableData] = useState([])
 
-    const location = useLocation()
+    const { calegs, loading } = useSelector(state => state.caleg)
 
+    const dispatch = useDispatch();
 
-useEffect(() => {
-    setTableData(fetchData)
-}, [])
+    useEffect(() => {
+        dispatch(getCaleg(1))
+    }, [])
 
-useEffect(() => {
+    useEffect(() => {
+       setTableData(calegs)
+    }, [calegs])
+
+    useEffect(() => {
 
 },[tableData])
+
+console.log(tableData);
 
     function filteredItems(data, filterText) {
         return data.filter((item) => {
@@ -83,9 +76,9 @@ useEffect(() => {
     }
     function filter(event) {
         if (event === '') {
-            setTableData(fetchData)
+            setTableData(calegs)
         } else {
-            setTableData(filteredItems(fetchData, event))
+            setTableData(filteredItems(calegs, event))
         }
     }
     
@@ -110,4 +103,4 @@ useEffect(() => {
     );
 };
 
-export default Table
+export default TableBalon

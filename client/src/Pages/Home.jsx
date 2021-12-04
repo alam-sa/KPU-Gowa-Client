@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 
 const Home = () => {
     return (
@@ -13,8 +14,8 @@ const Home = () => {
                     </div>{/* /.col */}
                     <div className="col-sm-6">
                     <ol className="breadcrumb float-sm-right">
-                        <li className="breadcrumb-item"><a href="#">Home</a></li>
-                        <li className="breadcrumb-item active">Dashboard v1</li>
+                        <li className="breadcrumb-item"><NavLink to="/dashboard">Home</NavLink></li>
+                        <li className="breadcrumb-item active">Dashboard KPU</li>
                     </ol>
                     </div>{/* /.col */}
                 </div>{/* /.row */}

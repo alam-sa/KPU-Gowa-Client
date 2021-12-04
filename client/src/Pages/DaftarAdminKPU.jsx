@@ -1,23 +1,23 @@
 import React from "react";
-import Table from "../components/DataTable";
+import TableAdmin from "../components/TableAdmin";
 import { NavLink, Outlet } from "react-router-dom";
 
-const Verifikasi = () => {
+const DaftarAdminKPU = () => {
 
   return (
     <React.Fragment>
-      <div className="content-wrapper">
+        <div className="content-wrapper">
             {/* Content Header (Page header) */}
             <div className="content-header">
                 <div className="container-fluid">
                 <div className="row mb-2">
                     <div className="col-sm-6">
-                    <h1 className="m-0">Verifikasi Calon Anggota Legislatif</h1>
+                    <h1 className="m-0">Daftar Admin KPU</h1>
                     </div>{/* /.col */}
                     <div className="col-sm-6">
                     <ol className="breadcrumb float-sm-right">
-                        <li className="breadcrumb-item"><NavLink to="/dashboard">Verifikasi</NavLink></li>
-                        <li className="breadcrumb-item active">Caleg</li>
+                        <li className="breadcrumb-item"><NavLink to="/dashboard">Pengguna</NavLink></li>
+                        <li className="breadcrumb-item active">Admin</li>
                     </ol>
                     </div>
                 </div>
@@ -29,7 +29,7 @@ const Verifikasi = () => {
                     <div className="col-12">
                     <div className="card">
                         <div className="card-body">
-                            <Table />
+                            <TableAdmin />
                         </div>
                     </div>
                     </div>
@@ -37,9 +37,10 @@ const Verifikasi = () => {
                 </div>
             </section>
         </div>
+
         <Outlet />
     </React.Fragment>
   )
 }
 
-export default Verifikasi
+export default DaftarAdminKPU

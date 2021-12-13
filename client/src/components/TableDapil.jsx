@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import DataTable, { memoize } from 'react-data-table-component';
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { deleteUser, getUsers, updateActiveUser } from "../store/action";
+import { deleteUser, getDapils, updateActiveUser } from "../store/action";
 
 const TableDapil = () => {
-  const {users, loading } = useSelector(state => state.user)
+  const {dapils, loading } = useSelector(state => state.dapil)
   const [fetchData, setFetchData] = useState([])
   const [tableData, setTableData] = useState([])
 
@@ -13,16 +13,16 @@ const TableDapil = () => {
 
 
 useEffect(() => {
-    dispatch(getUsers())
-    setFetchData(users)
-    setTableData(users)
+    dispatch(getDapils())
+    setFetchData(dapils)
+    setTableData(dapils)
 }, [])
 
 
 useEffect(() => {
-  setTableData(users)
-  setFetchData(users)
-},[users])
+  setTableData(dapils)
+  setFetchData(dapils)
+},[dapils])
 
 useEffect(() => {
   setTableData(fetchData)
@@ -30,30 +30,20 @@ useEffect(() => {
 
 const columns = [
   {
-      name: 'Email',
-      selector: row => row.email
+      name: 'NAMA DAPIL',
+      selector: row => row.nama_dapil
   },
   
   {
-      name: 'Jenis Akun',
-      selector: row => row.UserLevel.user_level,
+      name: 'WILAYAH DAPIL',
+      selector: row => row.wilayah_dapil,
       sortable: true,
   },
   {
-    name: 'Status',
-    selector: row => row.is_active ? 'Aktif' : "Non Aktif",
+    name: 'JUMLAH KURSI',
+    selector: row => row.jumlah_kursi,
     sortable: true,
-  },
-  {
-    name: 'Status',
-    cell: (data) =>  <div className="custom-control custom-switch">
-                      <input type="checkbox" className="custom-control-input" checked={data.is_active} id={data.id} onChange={(e) => dispatch(updateActiveUser(data.id, !data.is_active))} />
-                      <label className="custom-control-label" htmlFor={data.id}></label>
-                    </div> ,
-    ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
-  },
+},
   {
     cell: (data) => <button className='btn btn-sm btn-danger' onClick={(e) => dispatch(deleteUser(data.id))} ><i className='fas fa-trash mr-1'></i>delete</button> ,
     ignoreRowClick: true,
@@ -64,12 +54,12 @@ const columns = [
 
     function filteredItems(data, filterText) {
         return data.filter((item) => {
-            return  item.email && item.email.toLowerCase().includes(filterText.toLowerCase()) || item.UserLevel.user_level && item.UserLevel.user_level.toLowerCase().includes(filterText.toLowerCase())
+            return  item.email && item.nama_dapil.toLowerCase().includes(filterText.toLowerCase()) || item.wilayah_dapil && item.wilayah_dapil.toLowerCase().includes(filterText.toLowerCase())
         })
     }
     function filter(event) {
         if (event === '') {
-            setTableData(users)
+            setTableData(dapils)
         } else {
             setTableData(filteredItems(fetchData, event))
         }

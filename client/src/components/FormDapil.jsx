@@ -28,17 +28,10 @@ function handleSubmit() {
         <React.Fragment>
          <div>
             <div className="mb-3">
-              <label htmlFor="email" className="form-label">Email</label>
+              <label htmlFor="email" className="form-label">Nama Dapil</label>
               <input type="email" className="form-control" id="email" aria-describedby="emailHelp" placeholder="Masukkan Email" onChange={(e) => handleEmail(e)} />
             </div>
-            <div className="mb-3">
-              <label htmlFor="password" className="form-label">Password</label>
-              <input type={isPasswordVisible ? 'text': 'password'} className="form-control" id="password" placeholder="Masukkan Password" onChange={(e) => handlePassword(e)} />
-            </div>
-            <div className="mb-3 form-check">
-              <input type="checkbox" className="form-check-input" id="exampleCheck1" onChange={() => handleTogglePasswordVisibility()} />
-              <label className="form-check-label" htmlFor="exampleCheck1">Lihat Password</label>
-            </div>
+            
             <button type="submit" className="btn btn-primary" style={{float: "right"}} onClick={handleSubmit} >Tambah Admin</button>
           </div>
 

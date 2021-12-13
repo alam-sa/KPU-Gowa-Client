@@ -8,7 +8,7 @@ function reducer(state = initialState, action) {
   switch (type) {
     case 'DAPIL/ADDDAPILLIST':
       return { ...state, dapils: payload }
-    case 'LOADING/CHANGELOADINGPARPOLS':
+    case 'LOADING/CHANGELOADINGDAPILS':
       return { ...state, loading: payload }
     // case 'FAVORITES/ADDFAVORITEBOOK':
     //   return { ...state, favoriteBooks: [...state.favoriteBooks, payload] }

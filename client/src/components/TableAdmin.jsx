@@ -45,7 +45,7 @@ const columns = [
     sortable: true,
   },
   {
-    name: 'Status',
+    name: 'action',
     cell: (data) =>  <div className="custom-control custom-switch">
                       <input type="checkbox" className="custom-control-input" checked={data.is_active} id={data.id} onChange={(e) => dispatch(updateActiveUser(data.id, !data.is_active))} />
                       <label className="custom-control-label" htmlFor={data.id}></label>

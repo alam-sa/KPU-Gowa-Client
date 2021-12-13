@@ -1,13 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useLocation } from 'react-router';
 import moment from 'moment'
 
 var idLocale = require('moment/locale/id'); 
   moment.locale('id', idLocale);
 
-const ProfilCalon = () => {
-  const location = useLocation()
-  const { data } = location.state
+const ProfilCalon = ({caleg}) => {
+  // const location = useLocation()
+  // const { data } = location.state
+
+  useEffect(() => {
+
+  },[])
 
 
     return (

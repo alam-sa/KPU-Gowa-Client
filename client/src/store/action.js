@@ -37,18 +37,14 @@ export function setLoadingParpols(payload) {
   return { type: 'LOADING/CHANGELOADINGPARPOLS', payload }
 }
 
+// DAPIL
+export function setDapils(payload) {
+  return { type: 'DAPIL/ADDDAPILLIST', payload }
+}
 
-// export function setLoadingMovie(payload) {
-//   return { type: 'LOADING/CHANGELOADINGMOVIE', payload }
-// }
-
-// export function addFavoriteBook(payload) {
-//   return { type: 'FAVORITES/ADDFAVORITEBOOK', payload }
-// }
-
-// export function addFavoriteMovie(payload) {
-//   return { type: 'FAVORITES/ADDFAVORITEMOVIE', payload }
-// }
+export function setLoadingDapils(payload) {
+  return { type: 'LOADING/CHANGELOADINGDAPILS', payload }
+}
 
 // CALEG
 export function getCaleg(id) { 
@@ -294,6 +290,30 @@ export function addParpols(payload) {
 }
 
 // DAPIL
+export function getDapils() { 
+  return async (dispatch) => {
+    try {
+      dispatch(setLoadingDapils(true))
+      await axios({
+        url: `dapil`,
+        method: 'GET',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+      .then((res) => {
+        console.log(res.data);
+        dispatch(setDapils(res.data))
+        dispatch(setLoadingDapils(false))
+      }).catch(err => {
+        console.log(err);
+        dispatch(setLoadingDapils(false))
+      })
+    } catch(err) {
+      console.log(err);
+    }
+  }
+}
 
 // export function fetchMovie() {
   // return async (dispatch) => {

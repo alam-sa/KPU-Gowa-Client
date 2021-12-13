@@ -67,7 +67,6 @@ const TableBalon = () => {
 
 },[tableData])
 
-console.log(tableData);
 
     function filteredItems(data, filterText) {
         return data.filter((item) => {

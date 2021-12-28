@@ -1,18 +1,14 @@
 const initialState = {
-  parpols: [],
-  parpol: {},
-  loading: false
+  status: 0
 }
 
 function reducer(state = initialState, action) {
   const { type, payload } = action
   switch (type) {
-    case 'PARPOL/ADDPARPOLLIST':
-      return { ...state, parpols: payload }
-    case 'PARPOL/ADDPARPOLCALEG':
-      return { ...state, parpol: payload }
-    case 'LOADING/CHANGELOADINGPARPOLS':
-      return { ...state, loading: payload }
+    case 'STATUS/UPDATESTATUS':
+      return { ...state, status: payload }
+    // case 'LOADING/CHANGELOADINGUSERS':
+    //   return { ...state, loading: payload }
     // case 'FAVORITES/ADDFAVORITEBOOK':
     //   return { ...state, favoriteBooks: [...state.favoriteBooks, payload] }
     default:

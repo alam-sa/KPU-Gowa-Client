@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
-import Berkas from '../components/Berkas'
 import ProfilCalon from '../components/ProfilCalon'
 
-const DetailCalon = () => {
+const DataCalon = () => {
   const location = useLocation();
   console.log(location, "PROPS>>>>>>>>");
 
@@ -19,7 +18,7 @@ const DetailCalon = () => {
   useEffect(() => {
 
   },[data])
-  // console.log(caleg);
+
     return (
       <React.Fragment>
         {
@@ -30,7 +29,7 @@ const DetailCalon = () => {
                 <div className="container-fluid">
                 <div className="row mb-2">
                     <div className="col-sm-6">
-                    <h1 className="m-0">Verifikasi Bakal Calon Anggota Legislatif</h1>
+                    <h1 className="m-0">{data.StatusCaleg.id === 4 ? "Data Diri Calon  Anggota Legislatif" : "Data Diri Bakal Calon Anggota Legislatif"}</h1>
                     </div>{/* /.col */}
                     <div className="col-sm-6">
                     <ol className="breadcrumb float-sm-right">
@@ -52,9 +51,6 @@ const DetailCalon = () => {
                                     <li className="nav-item" role="presentation">
                                     <a className="nav-link active" id="home-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Data Diri</a>
                                     </li>
-                                    <li className="nav-item" role="presentation">
-                                    <a className="nav-link" id="documents-tab" data-toggle="tab" href="#documents" role="tab" aria-controls="documents" aria-selected="false">Berkas</a>
-                                    </li>
                                 </ul>
                             </div>
 
@@ -65,12 +61,12 @@ const DetailCalon = () => {
                                     <ProfilCalon 
                                         caleg={data}
                                         dapil={dapil}
-                                        parpol={parpol}
+                                        parpol={parpol} 
                                       />
                                     </div>
-                                    <div className="tab-pane fade" id="documents" role="tabpanel" aria-labelledby="documents-tab">
+                                    {/* <div className="tab-pane fade" id="documents" role="tabpanel" aria-labelledby="documents-tab">
                                       <Berkas caleg={data} />
-                                    </div>
+                                    </div> */}
                                 </div>
                                 
 
@@ -90,4 +86,4 @@ const DetailCalon = () => {
     )
 }
 
-export default DetailCalon
+export default DataCalon

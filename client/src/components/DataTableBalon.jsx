@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import DataTable, { memoize } from 'react-data-table-component';
-import moment from 'moment'
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getCaleg } from "../store/action";
+import { getCalegRegistered } from "../store/action";
+import moment from 'moment'
 
 var idLocale = require('moment/locale/id'); 
 moment.locale('id', idLocale);
@@ -11,11 +11,21 @@ moment.locale('id', idLocale);
 
 const columns = [
     {
-        name: 'Foto',
-        selector: row => row.nama
+      name: 'FOTO',
+      width: '12rem',
+      cell: (data) => <React.Fragment>
+      {data.foto_profil ?
+          <img className='mx-1' src={data.foto_profil} width="50" height="50" alt="" />
+      : 
+          <img className='mx-1' src={'avatar.jpg'} width="50" height="50" alt="Foto" />
+      }
+      </React.Fragment> ,
+      ignoreRowClick: false,
+      allowOverflow: true,
+      button: true,
     },
     {
-        name: 'Tanggal Daftar',
+        name: 'TANGGAL DAFTAR',
         selector: row => `${moment(row.createdAt).format("dddd")}, ${moment(row.createdAt).format("DD/MM/YYYY")}`,
         sortable: true,
     },
@@ -51,17 +61,17 @@ const columns = [
 const TableBalon = () => {
     const [tableData, setTableData] = useState([])
 
-    const { calegs, loading } = useSelector(state => state.caleg)
+    const { register, loading } = useSelector(state => state.caleg)
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getCaleg(1))
+        dispatch(getCalegRegistered())
     }, [])
 
     useEffect(() => {
-       setTableData(calegs)
-    }, [calegs])
+       setTableData(register)
+    }, [register])
 
     useEffect(() => {
 
@@ -75,9 +85,9 @@ const TableBalon = () => {
     }
     function filter(event) {
         if (event === '') {
-            setTableData(calegs)
+            setTableData(register)
         } else {
-            setTableData(filteredItems(calegs, event))
+            setTableData(filteredItems(register, event))
         }
     }
     

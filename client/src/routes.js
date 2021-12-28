@@ -13,6 +13,7 @@ import DetailCalon from './Pages/DetailCalon';
 import ProfilCalon from './components/ProfilCalon';
 import TambahDapil from './Pages/TambahDapil';
 import TambahPartai from './Pages/TambahPartai';
+import DataCalon from './Pages/DataCalon';
 
 const routes = (isLoggedIn) => [
   {
@@ -28,16 +29,20 @@ const routes = (isLoggedIn) => [
       { path: '/dashboard', element: <Home /> },
       { path: '/caleg', element: <DaftarCaleg /> },
       { path: '/bacaleg', element: <DaftarBacaleg /> },
-      { path: '/detail', element: <DetailCalon /> },
+      { path: '/detail', element: <DataCalon /> },
       { path: '/dapil', element: <TambahDapil /> },
       { path: '/partai', element: <TambahPartai /> },
+      { path: 'verifikasi/user', element: <DetailCalon /> },,
       {
         path: 'verifikasi',
         element: <Verifikasi />,
-        children: [
-          { path: 'verifikasi/:id', element: <DetailCalon /> },
-        ],
+        // children: [
+        //   { path: 'user/:id', element: <DetailCalon /> },
+        // ],
       },
+      // {
+      //   path: 'verifikasi/user/:id', element: <DetailCalon /> },
+      // },
       { path: '/pengguna/tambah', element: <TambahUser /> },
       { path: '/pengguna/list', element: <DaftarAdminKPU /> },
       { path: '/', element: <Navigate to="/dashboard" /> },

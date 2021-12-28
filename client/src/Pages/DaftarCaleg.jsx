@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Table from "../components/DataTable";
 import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getCalegVerified } from "../store/action";
 
 const DaftarCaleg = () => {
+  const { verified } = useSelector(state => state.caleg);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getCalegVerified())
+  }, [])
+
+  useEffect(() => {
+  },[verified])
 
   return (
     <React.Fragment>
@@ -29,7 +40,7 @@ const DaftarCaleg = () => {
                     <div className="col-12">
                     <div className="card">
                         <div className="card-body">
-                            <Table />
+                            <Table calegs={verified} />
                         </div>
                     </div>
                     </div>

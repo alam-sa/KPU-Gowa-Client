@@ -5,9 +5,17 @@ import axios from '../api/config';
 export function setAuth(payload) {
   return { type: 'AUTH/UPDATEAUTH', payload }
 }
-// PROVINCES
+// REGION
 export function setProvinces(payload) {
   return { type: 'REGION/ADDPROVINCES', payload }
+}
+
+export function setDistricts(payload) {
+  return { type: 'REGION/ADDDISTRICTS', payload }
+}
+
+export function setSubdistricts(payload) {
+  return { type: 'REGION/ADDSUBDISTRICTS', payload }
 }
 
 export function setLoadingProvinces(payload) {
@@ -15,8 +23,32 @@ export function setLoadingProvinces(payload) {
 }
 
 // CALEG
-export function setCaleg(payload) {
+export function setLoadingCaleg(payload) {
+  return { type: 'LOADING/CHANGELOADINGCALEG', payload }
+}
+export function setCalegs(payload) {
   return { type: 'CALEG/ADDCALEGLIST', payload }
+}
+
+export function setCaleg(payload) {
+  return { type: 'CALEG/ADDCALEG', payload }
+}
+
+export function setCalegRegistered(payload) {
+  return { type: 'CALEG/ADDCALEGREGISTER', payload }
+}
+
+export function setCalegValidate(payload) {
+  return { type: 'CALEG/ADDCALEGVALIDATE', payload }
+}
+
+export function setCalegVerified(payload) {
+  return { type: 'CALEG/ADDCALEGVERIFIED', payload }
+}
+
+// STATUS
+export function setStatus(payload) {
+  return { type: 'STATUS/UPDATESTATUS', payload }
 }
 
 // ADMIN KPU
@@ -32,6 +64,9 @@ export function setLoadingUsers(payload) {
 export function setParpols(payload) {
   return { type: 'PARPOL/ADDPARPOLLIST', payload }
 }
+export function setParpol(payload) {
+  return { type: 'PARPOL/ADDPARPOLCALEG', payload }
+}
 
 export function setLoadingParpols(payload) {
   return { type: 'LOADING/CHANGELOADINGPARPOLS', payload }
@@ -41,29 +76,190 @@ export function setLoadingParpols(payload) {
 export function setDapils(payload) {
   return { type: 'DAPIL/ADDDAPILLIST', payload }
 }
+export function setDapil(payload) {
+  return { type: 'DAPIL/ADDDAPILCALEG', payload }
+}
 
 export function setLoadingDapils(payload) {
   return { type: 'LOADING/CHANGELOADINGDAPILS', payload }
 }
 
+// DOKUMEN
+export function setDokumen(payload) {
+  return { type: 'DOKUMEN/ADDDOKUMENCALEG', payload }
+}
+
+export function setLoadingDokumen(payload) {
+  return { type: 'LOADING/CHANGELOADINGDOKUMEN', payload }
+}
+
+
+// REGION
+export function getProvinces() {
+  return async (dispatch) => {
+    try {
+      dispatch(setLoadingProvinces(true));
+      await axios({
+        url: `/provinces`,
+        method: 'GET',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+      .then(({data}) => {
+        data = data.map( (data, index) => {
+          return { value: index + 1, label: data }
+        })
+        dispatch(setProvinces(data));
+        dispatch(setLoadingProvinces(false));
+      }).catch(err => {
+        dispatch(setLoadingProvinces(false));
+        console.log(err);
+      })
+    } catch(err) {
+      console.log(err);
+    }
+  }
+}
+export function getDistricts(region, data) {
+  return async (dispatch) => {
+    try {
+      dispatch(setLoadingProvinces(true));
+      await axios({
+        url: `/region?${region}=${data}`,
+        method: 'GET',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+      .then(({data}) => {
+        data = data.map( (data, index) => {
+          return { value: index + 1, label: data }
+        })
+        if (region === 'province') {
+          dispatch(setDistricts(data));
+        } else {
+          dispatch(setSubdistricts(data));
+        }
+        dispatch(setLoadingProvinces(false));
+      }).catch(err => {
+        dispatch(setLoadingProvinces(false));
+        console.log(err);
+      })
+    } catch(err) {
+      console.log(err);
+    }
+  }
+}
+
 // CALEG
-export function getCaleg(id) { 
+export function getCaleg(id) {
   return async (dispatch) => {
     try {
       await axios({
-        url: `caleg/${id}`,
+        url: `caleg/data/${id}`,
         method: 'GET',
         headers: {
           access_token: localStorage.getItem('access_token')
         }
       })
       .then((res) => {
-        dispatch(setCaleg(res.data))
+        res.data.provinsi = JSON.parse(res.data.provinsi);
+        res.data.kabupaten = JSON.parse(res.data.kabupaten);
+        res.data.kecamatan = JSON.parse(res.data.kecamatan);
+        dispatch(setCaleg(res.data));
+        dispatch(setDapil(res.data.Dapil));
+        dispatch(setParpol(res.data.Partai));
+        dispatch(setStatus(res.data.StatusCaleg));
+        dispatch(setDokumen(res.data.Dokumen));
+        dispatch(setLoadingCaleg(false));
       }).catch(err => {
         console.log(err);
       })
     } catch(err) {
       console.log(err);
+    }
+  }
+}
+
+export function getCalegRegistered() { 
+  return async (dispatch) => {
+    try {
+      dispatch(setLoadingCaleg(true));
+      await axios({
+        url: `caleg/filter/register`,
+        method: 'GET',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+      .then((res) => {
+        if (res.data) {
+          dispatch(setCalegRegistered(res.data));
+        }
+        dispatch(setLoadingCaleg(false));
+      }).catch(err => {
+        console.log(err);
+        dispatch(setLoadingCaleg(false));
+      })
+    } catch(err) {
+      console.log(err);
+      dispatch(setLoadingCaleg(false));
+    }
+  }
+}
+
+export function getCalegValidate() { 
+  return async (dispatch) => {
+    try {
+      dispatch(setLoadingCaleg(true));
+      await axios({
+        url: `caleg/filter/validasi`,
+        method: 'GET',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+      .then((res) => {
+        if (res.data) {
+          dispatch(setCalegValidate(res.data));
+        }
+        dispatch(setLoadingCaleg(false));
+      }).catch(err => {
+        console.log(err);
+        dispatch(setLoadingCaleg(false));
+      })
+    } catch(err) {
+      console.log(err);
+      dispatch(setLoadingCaleg(false));
+    }
+  }
+}
+
+export function getCalegVerified() { 
+  return async (dispatch) => {
+    try {
+      dispatch(setLoadingCaleg(true));
+      await axios({
+        url: `caleg/filter/verified`,
+        method: 'GET',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+      .then((res) => {
+        console.log(res.data, "VERIFIED>>>>>>>>");
+        if (res.data) {
+          dispatch(setCalegVerified(res.data));
+        }
+        dispatch(setLoadingCaleg(false));
+      }).catch(err => {
+        console.log(err);
+        dispatch(setLoadingCaleg(false));
+      })
+    } catch(err) {
+      console.log(err);
+      dispatch(setLoadingCaleg(false));
     }
   }
 }

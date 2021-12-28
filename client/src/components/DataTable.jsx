@@ -1,35 +1,52 @@
 import React, { useEffect, useState } from "react";
 import DataTable, { memoize } from 'react-data-table-component';
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
+import { getCalegValidate } from "../store/action";
+import moment from 'moment'
+
+var idLocale = require('moment/locale/id'); 
+moment.locale('id', idLocale);
+
 
 const columns = [
     {
-        name: 'Foto',
-        selector: row => row.year
+      name: 'FOTO',
+      width: '12rem',
+      cell: (data) => <React.Fragment>
+      {data.foto_profil ?
+          <img className='mx-1' src={data.foto_profil} width="50" height="50" alt="" />
+      : 
+          <img className='mx-1' src={'avatar.jpg'} width="50" height="50" alt="Foto" />
+      }
+      </React.Fragment> ,
+      ignoreRowClick: false,
+      allowOverflow: true,
+      button: true,
     },
     {
-        name: 'Tanggal Daftar',
-        selector: row => row.year,
+        name: 'TANGGAL DAFTAR',
+        selector: row => `${moment(row.createdAt).format("dddd")}, ${moment(row.createdAt).format("DD/MM/YYYY")}`,
         sortable: true,
     },
     {
         name: 'NIK',
-        selector: row => row.year,
+        selector: row => row.NIK,
         sortable: true,
     },
     {
-        name: 'Nama Calon',
-        selector: row => row.title,
+        name: 'NAMA CALON',
+        selector: row => row.nama,
         sortable: true,
     },
     {
-      name: 'Asal Partai',
-      selector: row => row.partai,
+      name: 'ASAL PARTAI',
+      selector: row => row.Partai.nama_partai,
       sortable: true,
     },
     {
-        name: 'Validasi',
-        selector: row => row.year,
+        name: 'VALIDASI',
+        selector: row => row.StatusCaleg.nama_status,
         sortable: true,
     },
     {
@@ -39,42 +56,29 @@ const columns = [
         button: true,
     },
     {
-        cell: (data) => <button className='btn btn-sm btn-success'><i className='fas fa-edit mr-1'></i><Link to={{pathname: `/verifikasi/${data.id}`, state: data}} style={{color: '#fff'}} className="link-success">Verifikasi</Link></button> ,
+        cell: (data) => data.StatusCaleg.id === 4 ? <></> : <button className='btn btn-sm btn-success'><i className='fas fa-edit mr-1'></i><Link to='user' state={{data: data}} style={{color: '#fff'}} className="link-success">Verifikasi</Link></button>,
         ignoreRowClick: true,
         allowOverflow: true,
         button: true,
     },
 ];
 
-const data = [
-    {
-        id: 1,
-        title: 'Beetlejuice',
-        partai: 'PDI Perjuangan',
-        year: '1988',
-    },
-    {
-        id: 2,
-        title: 'Ghostbusters',
-        partai: 'Gerindra',
-        year: '1984',
-    },
-]
 
-const Table = () => {
-    const [fetchData, setFetchData] = useState(data)
+const Table = ({calegs}) => {
     const [tableData, setTableData] = useState([])
+    const { validate, loading } = useSelector(state => state.caleg)
 
-    const location = useLocation()
+  const dispatch = useDispatch();
 
 
-useEffect(() => {
-    setTableData(fetchData)
-}, [])
+  // useEffect(() => {
+  //     dispatch(getCalegValidate())
+  // }, [])
 
-useEffect(() => {
+  useEffect(() => {
+    setTableData(calegs)
+  },[calegs])
 
-},[tableData])
 
     function filteredItems(data, filterText) {
         return data.filter((item) => {
@@ -83,9 +87,9 @@ useEffect(() => {
     }
     function filter(event) {
         if (event === '') {
-            setTableData(fetchData)
+            setTableData(validate)
         } else {
-            setTableData(filteredItems(fetchData, event))
+            setTableData(filteredItems(validate, event))
         }
     }
     

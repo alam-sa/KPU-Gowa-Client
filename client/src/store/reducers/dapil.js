@@ -1,5 +1,6 @@
 const initialState = {
   dapils: [],
+  dapil: {},
   loading: false
 }
 
@@ -8,6 +9,8 @@ function reducer(state = initialState, action) {
   switch (type) {
     case 'DAPIL/ADDDAPILLIST':
       return { ...state, dapils: payload }
+    case 'DAPIL/ADDDAPILCALEG':
+    return { ...state, dapil: payload }
     case 'LOADING/CHANGELOADINGDAPILS':
       return { ...state, loading: payload }
     // case 'FAVORITES/ADDFAVORITEBOOK':

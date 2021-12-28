@@ -1,64 +1,179 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router';
+import { useSelector } from 'react-redux';
+import axios from 'axios'
 
-const Berkas = () => {
-//   const [ legal, setLegal ]= useState({
-//     ktp: '',
-//     npwp: '',
-//     akta_pendirian: '',
-//     akta_perubahan_terakhir: '',
-//     skt: '',
-//     sppkp: '',
-//     siup: '',
-//     tdp: '',
-//     keterangan_domisili: '',
-//     nib: ''
-// });
-// function postUpload(event) {
-//   const name = event.target.name
-//   const formData = new FormData();
-//   formData.append('file', event.target.files[0]);
-//   formData.append("upload_preset", "product_picture");
+
+const Berkas = ({caleg}) => {
+  const { dokumen } = useSelector((state) => state.dokumen);
+
+  const [ legal, setLegal ]= useState({
+    ktp: dokumen.ktp,
+    bb1: dokumen.bb1,
+    bb2: dokumen.bb2,
+    ijazah: dokumen.ijazah,
+    suket_sehat: dokumen.suket_sehat,
+    suket_kpu: dokumen.suket_kpu,
+    skck: dokumen.skck,
+    kta_parpol: dokumen.kta_parpol,
+    dokumen_lainnya: dokumen.dokumen_lainnya,
+
+  });
+  useEffect(() => {
+    console.log(caleg, "Dokumen>>>>>>>>>>>>>>>>>>");
+  },[caleg]);
   
-// }
-const location = useLocation()
-const { data } = location.state
+  function handlePdf(event) {
+    event.preventDefault()
+    console.log(event.target.name);
+    openInNewTab('http://localhost:3001/pdf/ada.pdf')
+  }
 
-console.log(data, ">>>>>>>>>>>>>>>>>>");
-
-function openInNewTab(url) {
-  const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
-  if (newWindow) newWindow.opener = null
-}
+  function openInNewTab(url) {
+    const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+    if (newWindow) newWindow.opener = null
+  }
   
   return (
-    <div className='container-fluid'> 
-    <div className='p-4 ' >    
-        <div className="" >
-            {/* <div className='form-group'>
-                <label className=' mt-2'>Kartu Tanda Penduduk</label>
-                <input type="file" className={data.Dokumen.ktp ? 'd-none' : 'form-control'} placeholder='Masukkan Refferal Code' id='ktp' name='ktp' defaultValue={data.Dokumen.ktp} onChange={(e) => (e)}  accept=".jpg, .jpeg, .png, .pdf"/>
-                {data.Dokumen.ktp? 
-                    <>
-                        <div className='d-flex '>
-                            <div className='mx-1' style={{minWidth:"150px", width:"150px"}}>     
-                                <div className='d-flex flex-column'  >
-                                    <img src={data.Dokumen.ktp} alt='' style={{minWidth:"150px", backgroundSize:"cover"}} height="150px" width="150px" onClick={() => openInNewTab(data.Dokumen.ktp)} />
-                                    
-                                    <label className='btn elefin-primary text-white form-control' htmlFor={'ktp'} >Ubah File</label>
-                                    
+    <div className='container-fluid'>
+      <div className='row'>
+          <div className='d-flex flex-column col-md-12'>
+              <div className='p-4 text-muted card mb-5 h-100'>
+                  <div className="d-flex justify-content-center p-5">
+                      <div className='d-flex flex-column ml-5'>
+                        <div className='card mb-0' style={{width:"150px", height:"150px", minWidth:'150px'}}>
+                            <img src="http://localhost:3001/asset/pdf.png" height="150px"  width="150px" alt="logo" />
+                        </div>
+                          <button onClick={(e) => handlePdf(e)} name="ktp" className="btn mt-3 mb-3 btn-sm btn-info"><i className="fas fa-eye mr-1 ml-0"></i>KTP</button>
+                          <div className="input-group justify-content-center">
+                                <div className="input-group-prepend">
+                                    <button className={"btn btn-sm btn-success"} name='logo_status' id ='logo_status'><i className="fas fa-check mx-2" id ='logo_status'></i></button>
+                                </div>
+                                <div className="input-group-append">
+                                    <button className={"btn btn-sm btn-danger"} name='logo_status' id ='logo_status' ><i className="fas fa-times text-lg mx-2" id ='logo_status'></i></button>
                                 </div>
                             </div>  
-                            
+                      </div>
+                      <div className='d-flex flex-column ml-5'>
+                        <div className='card mb-0' style={{width:"150px", height:"150px", minWidth:'150px'}}>
+                                <img src="http://localhost:3001/asset/pdf.png" height="150px"  width="150px" alt="logo" />
                         </div>
-                    </>
-                :null }
-            </div>
-                         */}
-            
-        </div>
+                          <button className="btn mt-3 mb-3 btn-sm btn-info"><i className="fas fa-eye mr-1 ml-0"></i>BB.1</button>
+                          <div className="input-group justify-content-center">
+                                <div className="input-group-prepend">
+                                    <button className={"btn btn-sm btn-success"} name='logo_status' id ='logo_status'><i className="fas fa-check mx-2" id ='logo_status'></i></button>
+                                </div>
+                                <div className="input-group-append">
+                                    <button className={"btn btn-sm btn-danger"} name='logo_status' id ='logo_status' ><i className="fas fa-times text-lg mx-2" id ='logo_status'></i></button>
+                                </div>
+                            </div>  
+                      </div>
+                      <div className='d-flex flex-column ml-5'>
+                        <div className='card mb-0' style={{width:"150px", height:"150px", minWidth:'150px'}}>
+                                <img src="http://localhost:3001/asset/pdf.png" height="150px"  width="150px" alt="logo" />
+                        </div>
+                          <button className="btn mt-3 mb-3 btn-sm btn-info"><i className="fas fa-eye mr-1 ml-0"></i>BB.2</button>
+                          <div className="input-group justify-content-center">
+                                <div className="input-group-prepend">
+                                    <button className={"btn btn-sm btn-success"} name='logo_status' id ='logo_status'><i className="fas fa-check mx-2" id ='logo_status'></i></button>
+                                </div>
+                                <div className="input-group-append">
+                                    <button className={"btn btn-sm btn-danger"} name='logo_status' id ='logo_status' ><i className="fas fa-times text-lg mx-2" id ='logo_status'></i></button>
+                                </div>
+                            </div>  
+                      </div>
+                      <div className='d-flex flex-column ml-5'>
+                        <div className='card mb-0' style={{width:"150px", height:"150px", minWidth:'150px'}}>
+                                <img src="http://localhost:3001/asset/pdf.png" height="150px"  width="150px" alt="logo" />
+                        </div>
+                          <button className="btn mt-3 mb-3 btn-sm btn-info"><i className="fas fa-eye mr-1 ml-0"></i>Ijazah</button>
+                          <div className="input-group justify-content-center">
+                                <div className="input-group-prepend">
+                                    <button className={"btn btn-sm btn-success"} name='logo_status' id ='logo_status'><i className="fas fa-check mx-2" id ='logo_status'></i></button>
+                                </div>
+                                <div className="input-group-append">
+                                    <button className={"btn btn-sm btn-danger"} name='logo_status' id ='logo_status' ><i className="fas fa-times text-lg mx-2" id ='logo_status'></i></button>
+                                </div>
+                            </div>  
+                      </div>
+                      <div className='d-flex flex-column ml-5'>
+                        <div className='card mb-0' style={{width:"150px", height:"150px", minWidth:'150px'}}>
+                                <img src="http://localhost:3001/asset/pdf.png" height="150px"  width="150px" alt="logo" />
+                        </div>
+                          <button className="btn mt-3 mb-3 btn-sm btn-info"><i className="fas fa-eye mr-1 ml-0"></i>Surat Ket. Sehat</button>
+                          <div className="input-group justify-content-center">
+                                <div className="input-group-prepend">
+                                    <button className={"btn btn-sm btn-success"} name='logo_status' id ='logo_status'><i className="fas fa-check mx-2" id ='logo_status'></i></button>
+                                </div>
+                                <div className="input-group-append">
+                                    <button className={"btn btn-sm btn-danger"} name='logo_status' id ='logo_status' ><i className="fas fa-times text-lg mx-2" id ='logo_status'></i></button>
+                                </div>
+                            </div>  
+                      </div>
+                  </div>
+              {/* </div>
+              <div className='p-4 text-muted card mb-0 '> */}
+                  <div className="d-flex justify-content-center p-5">
+                          <div className='d-flex flex-column ml-5'>
+                            <div className='card mb-0' style={{width:"150px", height:"150px", minWidth:'150px'}}>
+                                    <img src="http://localhost:3001/asset/pdf.png" height="150px"  width="150px" alt="logo" />
+                            </div>
+                              <button className="btn mt-3 mb-3 btn-sm btn-info"><i className="fas fa-eye mr-1 ml-0"></i>Surat Ket. KPU</button>
+                              <div className="input-group justify-content-center">
+                                    <div className="input-group-prepend">
+                                        <button className={"btn btn-sm btn-success"} name='logo_status' id ='logo_status'><i className="fas fa-check mx-2" id ='logo_status'></i></button>
+                                    </div>
+                                    <div className="input-group-append">
+                                        <button className={"btn btn-sm btn-danger"} name='logo_status' id ='logo_status' ><i className="fas fa-times text-lg mx-2" id ='logo_status'></i></button>
+                                    </div>
+                                </div>  
+                          </div>
+                          <div className='d-flex flex-column ml-5'>
+                            <div className='card mb-0' style={{width:"150px", height:"150px", minWidth:'150px'}}>
+                                    <img src="http://localhost:3001/asset/pdf.png" height="150px"  width="150px" alt="logo" />
+                            </div>
+                              <button className="btn mt-3 mb-3 btn-sm btn-info"><i className="fas fa-eye mr-1 ml-0"></i>SKCK</button>
+                              <div className="input-group justify-content-center">
+                                    <div className="input-group-prepend">
+                                        <button className={"btn btn-sm btn-success"} name='logo_status' id ='logo_status'><i className="fas fa-check mx-2" id ='logo_status'></i></button>
+                                    </div>
+                                    <div className="input-group-append">
+                                        <button className={"btn btn-sm btn-danger"} name='logo_status' id ='logo_status' ><i className="fas fa-times text-lg mx-2" id ='logo_status'></i></button>
+                                    </div>
+                                </div>  
+                          </div>
+                          <div className='d-flex flex-column ml-5'>
+                            <div className='card mb-0' style={{width:"150px", height:"150px", minWidth:'150px'}}>
+                                    <img src="http://localhost:3001/asset/pdf.png" height="150px"  width="150px" alt="logo" />
+                            </div>
+                              <button className="btn mt-3 mb-3 btn-sm btn-info"><i className="fas fa-eye mr-1 ml-0"></i>KTA PARPOL</button>
+                              <div className="input-group justify-content-center">
+                                    <div className="input-group-prepend">
+                                        <button className={"btn btn-sm btn-success"} name='logo_status' id ='logo_status'><i className="fas fa-check mx-2" id ='logo_status'></i></button>
+                                    </div>
+                                    <div className="input-group-append">
+                                        <button className={"btn btn-sm btn-danger"} name='logo_status' id ='logo_status' ><i className="fas fa-times text-lg mx-2" id ='logo_status'></i></button>
+                                    </div>
+                                </div>  
+                          </div>
+                          <div className='d-flex flex-column ml-5'>
+                            <div className='card mb-0' style={{width:"150px", height:"150px", minWidth:'150px'}}>
+                                    <img src="http://localhost:3001/asset/pdf.png" height="150px"  width="150px" alt="logo" />
+                            </div>
+                              <button className="btn mt-3 mb-3 btn-sm btn-info"><i className="fas fa-eye mr-1 ml-0"></i>Dokumen Lainnya</button>
+                              <div className="input-group justify-content-center">
+                                    <div className="input-group-prepend">
+                                        <button className={"btn btn-sm btn-success"} name='logo_status' id ='logo_status'><i className="fas fa-check mx-2" id ='logo_status'></i></button>
+                                    </div>
+                                    <div className="input-group-append">
+                                        <button className={"btn btn-sm btn-danger"} name='logo_status' id ='logo_status' ><i className="fas fa-times text-lg mx-2" id ='logo_status'></i></button>
+                                    </div>
+                                </div>  
+                          </div>
+                  </div>
+              </div>
+          </div>
+      </div>   
     </div>
-</div>
   )
 }
 

@@ -1,7 +1,7 @@
 const initialState = {
-  provinces: [],
-  districts: [{value: 0, label: "-- Pilih Provinsi Terlebih Dahulu --", disabled: true}],
-  subdistricts: [{value: 0, label: "-- Pilih Kabupaten / Kota Terlebih Dahulu --", disabled: true}],
+  // provinces: [],
+  // districts: [{value: 0, label: "-- Pilih Provinsi Terlebih Dahulu --", disabled: true}],
+  subdistricts: [],
   loadingRegion: true
 }
 

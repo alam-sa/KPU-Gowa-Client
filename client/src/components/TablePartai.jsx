@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import DataTable, { memoize } from 'react-data-table-component';
 import { useDispatch, useSelector } from "react-redux";
-import { getParpols } from "../store/action";
+import { deleteParpol, getAllParpol, getParpols } from "../store/action";
 import moment from 'moment'
+import { Link } from "react-router-dom";
 
 var idLocale = require('moment/locale/id'); 
   moment.locale('id', idLocale);
 
 const TablePartai = () => {
-  const {parpols, loading } = useSelector(state => state.parpol)
+  const {allParpol, loading } = useSelector(state => state.parpol)
   const [fetchData, setFetchData] = useState([])
   const [tableData, setTableData] = useState([])
 
@@ -16,16 +17,17 @@ const TablePartai = () => {
 
 
 useEffect(() => {
-    dispatch(getParpols())
-    setFetchData(parpols)
-    setTableData(parpols)
+    dispatch(getAllParpol())
+    setFetchData(allParpol)
+    setTableData(allParpol)
 }, [])
 
 
 useEffect(() => {
-  setTableData(parpols)
-  setFetchData(parpols)
-},[parpols])
+  setTableData(allParpol)
+  setFetchData(allParpol)
+  console.log(allParpol);
+},[allParpol])
 
 useEffect(() => {
   setTableData(fetchData)
@@ -52,13 +54,13 @@ const columns = [
     sortable: true,
   },
   {
-    cell: (data) => <button className='btn btn-sm btn-primary' onClick={(e) => "msuddudhud"} ><i className='fas fa-edit mr-1'></i>edit</button> ,
+    cell: (data) => <button className='btn btn-sm btn-primary' onClick={(e) => console.log(data)} ><i className='fas fa-edit mr-1'></i><Link to="/partai/edit" state={{data: data}} style={{color: '#fff'}} className="link-danger">Edit</Link></button> ,
     ignoreRowClick: true,
     allowOverflow: true,
     button: true,
   },
   {
-    cell: (data) => <button className='btn btn-sm btn-danger' onClick={(e) => "msuddudhud"} ><i className='fas fa-trash mr-1'></i>delete</button> ,
+    cell: (data) => <button className='btn btn-sm btn-danger' onClick={(e) => dispatch(deleteParpol(data.id))} ><i className='fas fa-trash mr-1'></i>delete</button> ,
     ignoreRowClick: true,
     allowOverflow: true,
     button: true,
@@ -72,7 +74,7 @@ const columns = [
     }
     function filter(event) {
         if (event === '') {
-            setTableData(parpols)
+            setTableData(allParpol)
         } else {
             setTableData(filteredItems(fetchData, event))
         }

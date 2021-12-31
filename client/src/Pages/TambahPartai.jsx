@@ -2,6 +2,7 @@ import React from "react";
 import ListPartai from "../components/TablePartai";
 import FormPartai from "../components/FormPartai";
 import { NavLink } from "react-router-dom";
+import TambahUserParpol from "./TambahUserParpol";
 
 const TambahPartai = () => {
 
@@ -13,7 +14,7 @@ const TambahPartai = () => {
                 <div className="container-fluid">
                 <div className="row mb-2">
                     <div className="col-sm-6">
-                    <h1 className="m-0">Daftar Partai Politik</h1>
+                    <h1 className="m-0">Partai Politik</h1>
                     </div>{/* /.col */}
                     <div className="col-sm-6">
                     <ol className="breadcrumb float-sm-right">
@@ -38,6 +39,9 @@ const TambahPartai = () => {
                                     <li className="nav-item" role="presentation">
                                     <a className="nav-link" id="documents-tab" data-toggle="tab" href="#documents" role="tab" aria-controls="documents" aria-selected="false">Tambah Parpol</a>
                                     </li>
+                                    <li className="nav-item" role="presentation">
+                                    <a className="nav-link" id="users-tab" data-toggle="tab" href="#users" role="tab" aria-controls="users" aria-selected="false">Tambah Admin Parpol</a>
+                                    </li>
                                 </ul>
                             </div>
 
@@ -49,6 +53,9 @@ const TambahPartai = () => {
                                     </div>
                                     <div className="tab-pane fade" id="documents" role="tabpanel" aria-labelledby="documents-tab">
                                       <FormPartai />
+                                    </div>
+                                    <div className="tab-pane fade" id="users" role="tabpanel" aria-labelledby="users-tab">
+                                      <TambahUserParpol />
                                     </div>
                                 </div>
 

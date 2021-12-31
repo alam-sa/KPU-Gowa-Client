@@ -10,7 +10,7 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import SideNav from './components/SideNav';
 import DetailCalon from './Pages/DetailCalon';
-import ProfilCalon from './components/ProfilCalon';
+import EditParpol from './Pages/EditParpol'
 import TambahDapil from './Pages/TambahDapil';
 import TambahPartai from './Pages/TambahPartai';
 import DataCalon from './Pages/DataCalon';
@@ -31,18 +31,13 @@ const routes = (isLoggedIn) => [
       { path: '/bacaleg', element: <DaftarBacaleg /> },
       { path: '/detail', element: <DataCalon /> },
       { path: '/dapil', element: <TambahDapil /> },
+      { path: 'Partai/edit', element: <EditParpol /> },
       { path: '/partai', element: <TambahPartai /> },
-      { path: 'verifikasi/user', element: <DetailCalon /> },,
+      { path: 'verifikasi/user', element: <DetailCalon /> },
       {
         path: 'verifikasi',
-        element: <Verifikasi />,
-        // children: [
-        //   { path: 'user/:id', element: <DetailCalon /> },
-        // ],
+        element: <Verifikasi />
       },
-      // {
-      //   path: 'verifikasi/user/:id', element: <DetailCalon /> },
-      // },
       { path: '/pengguna/tambah', element: <TambahUser /> },
       { path: '/pengguna/list', element: <DaftarAdminKPU /> },
       { path: '/', element: <Navigate to="/dashboard" /> },

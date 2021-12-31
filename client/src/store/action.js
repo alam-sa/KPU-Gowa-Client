@@ -64,6 +64,9 @@ export function setLoadingUsers(payload) {
 export function setParpols(payload) {
   return { type: 'PARPOL/ADDPARPOLLIST', payload }
 }
+export function setAllParpol(payload) {
+  return { type: 'PARPOL/ADDALLPARPOL', payload }
+}
 export function setParpol(payload) {
   return { type: 'PARPOL/ADDPARPOLCALEG', payload }
 }
@@ -95,32 +98,6 @@ export function setLoadingDokumen(payload) {
 
 
 // REGION
-export function getProvinces() {
-  return async (dispatch) => {
-    try {
-      dispatch(setLoadingProvinces(true));
-      await axios({
-        url: `/provinces`,
-        method: 'GET',
-        headers: {
-          access_token: localStorage.getItem('access_token')
-        }
-      })
-      .then(({data}) => {
-        data = data.map( (data, index) => {
-          return { value: index + 1, label: data }
-        })
-        dispatch(setProvinces(data));
-        dispatch(setLoadingProvinces(false));
-      }).catch(err => {
-        dispatch(setLoadingProvinces(false));
-        console.log(err);
-      })
-    } catch(err) {
-      console.log(err);
-    }
-  }
-}
 export function getDistricts(region, data) {
   return async (dispatch) => {
     try {
@@ -134,13 +111,10 @@ export function getDistricts(region, data) {
       })
       .then(({data}) => {
         data = data.map( (data, index) => {
-          return { value: index + 1, label: data }
+          return { value: data.toUpperCase(), label: data.toUpperCase() }
         })
-        if (region === 'province') {
-          dispatch(setDistricts(data));
-        } else {
-          dispatch(setSubdistricts(data));
-        }
+        // console.log(data, ">>>>>>>>>>>>>>>>>>");
+        dispatch(setSubdistricts(data));
         dispatch(setLoadingProvinces(false));
       }).catch(err => {
         dispatch(setLoadingProvinces(false));
@@ -314,7 +288,7 @@ export function updateActiveUser(id, payload) {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-      });
+        });
       }).catch(err => {
         console.log(err);
         dispatch(setLoadingUsers(false))
@@ -418,6 +392,30 @@ export function deleteUser(id) {
 }
 
 // PARPOL
+export function getAllParpol() { 
+  return async (dispatch) => {
+    try {
+      dispatch(setLoadingParpols(true))
+      await axios({
+        url: `partai`,
+        method: 'GET',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+      .then(({data}) => {
+        
+        dispatch(setAllParpol(data))
+        dispatch(setLoadingParpols(false))
+      }).catch(err => {
+        console.log(err);
+        dispatch(setLoadingParpols(false))
+      })
+    } catch(err) {
+      console.log(err);
+    }
+  }
+}
 export function getParpols() { 
   return async (dispatch) => {
     try {
@@ -429,9 +427,11 @@ export function getParpols() {
           access_token: localStorage.getItem('access_token')
         }
       })
-      .then((res) => {
-        console.log(res.data);
-        dispatch(setParpols(res.data))
+      .then(({data}) => {
+        data = data.map(data => {
+          return { value: data.id, label: data.nama_partai }
+       })
+        dispatch(setParpols(data))
         dispatch(setLoadingParpols(false))
       }).catch(err => {
         console.log(err);
@@ -457,6 +457,92 @@ export function addParpols(payload) {
       .then((res) => {
         dispatch(setLoadingParpols(false))
         dispatch(getParpols())
+        toast.success(res.data.message, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+      });
+      }).catch(err => {
+        console.log(err);
+        dispatch(setLoadingParpols(false))
+        toast.error(err.response.data.message[0], {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+      });
+      })
+    } catch(err) {
+      console.log(err);
+    }
+  }
+}
+
+export function updateParpol(payload, id) { 
+  return async (dispatch) => {
+    try {
+      dispatch(setLoadingParpols(true))
+      await axios({
+        url: `partai/update/${id}`,
+        method: 'PUT',
+        data: payload,
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+      .then((res) => {
+        dispatch(setLoadingParpols(false))
+        dispatch(getParpols())
+        toast.success(res.data.message, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+      });
+      }).catch(err => {
+        console.log(err);
+        dispatch(setLoadingParpols(false))
+        toast.error(err.response.data.message[0], {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+      });
+      })
+    } catch(err) {
+      console.log(err);
+    }
+  }
+}
+
+
+export function deleteParpol(id) { 
+  return async (dispatch) => {
+    try {
+      dispatch(setLoadingParpols(true))
+      await axios({
+        url: `partai/${id}`,
+        method: 'DELETE',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+      .then((res) => {
+        dispatch(setLoadingParpols(false))
+        dispatch(getAllParpol())
         toast.success(res.data.message, {
           position: "top-center",
           autoClose: 5000,

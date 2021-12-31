@@ -59,6 +59,10 @@ function handleVisiMisi(event) {
 
  function handleUploadLogo(event) {
    setSelectedFile(event.target.files[0])
+   setData({
+     ...data,
+     logo: URL.createObjectURL(event.target.files[0])
+   })
  }
 
 function handleSubmit() {
@@ -96,7 +100,6 @@ function handleSubmit() {
     logo: '',
     visi_misi: ''
   });
-  console.log(data);
   navigate('/partai')
   }).catch(err => {
     setErrorUpload(true)
@@ -117,6 +120,15 @@ function handleSubmit() {
     return(
         <React.Fragment>
          <div>
+         <div className='card mb-3' style={{width:"150px", height:"150px", minWidth:'150px'}}>
+          <input type="file" className='d-none' id='logo' accept="image/png, image/jpg, image/jpeg" onChange={(e) => handleUploadLogo(e)} />
+                  <img src={data.logo ? `${data.logo}` : "logo.png"} height="150px"  width="150px" alt="" htmlFor={'logo'} />
+            </div>
+            <div className='mb-3'>
+                {/* <p className='w-50'>Ukuran optimal 225 x 330 pixel dengan Besar file: Maksimum 500.000 bytes (500 Kb). Ekstensi file yang diperbolehkan: JPG, JPEG </p> */}
+                <label className='btn w-40 btn-outline-primary' htmlFor='logo'>Upload Logo
+                </label>
+            </div>
             <div className="mb-3">
               <label htmlFor="nama-partai" className="form-label">Nama Partai</label>
               <input type="text" className="form-control" id="nama-partai" placeholder="Masukkan Nama Partai" onChange={(e) => handleName(e)} />
@@ -125,10 +137,10 @@ function handleSubmit() {
               <label htmlFor="no-urut" className="form-label">Nomor Urut</label>
               <input type='number' className="form-control" id="no-urut" placeholder="Masukkan No. Urut" onChange={(e) => handleNoUrut(e)} />
             </div>
-            <div className="mb-3">
+            {/* <div className="mb-3">
               <label htmlFor="exampleFormControlFile1">Logo Partai</label>
               <input type="file" name="file" className="form-control-file" id="exampleFormControlFile1" onChange={(e) => handleUploadLogo(e)} />
-            </div>
+            </div> */}
             <div className="mb-3">
               <label htmlFor="visi-misi" className="form-label">Visi - Misi</label>
               <textarea rows={20} className="form-control" id="visi-misi" placeholder="Masukkan Visi Misi Partai" onChange={(e) => handleVisiMisi(e)} />

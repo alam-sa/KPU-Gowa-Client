@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import DataTable, { memoize } from 'react-data-table-component';
+import DataTable from 'react-data-table-component';
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
-import { deleteUser, getDapils, updateActiveUser } from "../store/action";
+import { getDapils } from "../store/action";
+import axios from '../api/config';
+import { toast } from 'react-toastify';
 
 const TableDapil = () => {
   const {dapils, loading } = useSelector(state => state.dapil)
@@ -45,7 +46,7 @@ const columns = [
     sortable: true,
 },
   {
-    cell: (data) => <button className='btn btn-sm btn-danger' onClick={(e) => dispatch(deleteUser(data.id))} ><i className='fas fa-trash mr-1'></i>delete</button> ,
+    cell: (data) => <button className='btn btn-sm btn-danger' onClick={(e) => delDapil(e, data.id)} ><i className='fas fa-trash mr-1'></i>delete</button> ,
     ignoreRowClick: true,
     allowOverflow: true,
     button: true,
@@ -64,7 +65,39 @@ const columns = [
             setTableData(filteredItems(fetchData, event))
         }
     }
-    
+    function delDapil(event, id) {
+      axios({
+        url: `dapil/${id}`,
+        method: 'DELETE',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+      .then(({data}) => {
+        toast.success(data.message, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        dispatch(getDapils())
+      })
+      .catch(err => {
+      console.log(err);
+      toast.error("Gagal Menghapus Dapil!", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    })
+    }
 
     return (
         <React.Fragment>
